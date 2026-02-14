@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Preparing Something Special ❤️</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body{
+  overflow:hidden;
+}
+
+/* hati jatuh */
+.heart{
+  position:fixed;
+  top:-10px;
+  font-size:20px;
+  animation:fall linear forwards;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh);
+    opacity:0;
+  }
+}
+</style>
+</head>
+
+<body class="h-screen flex items-center justify-center bg-gradient-to-b from-pink-200 to-white">
+
+<audio id="bgm" loop>
+  <source src="WhatsApp Audio 2026-02-14 at 10.29.55.mp3">
+</audio>
+
+<div class="bg-white p-10 rounded-3xl shadow-xl text-center w-[340px]">
+
+<!-- GIF lucu -->
+<img src="image3.gif" class="w-44 mx-auto mb-6 rounded-xl">
+
+<h1 id="title" class="text-2xl font-bold text-pink-600 mb-4"></h1>
+
+<p id="typing" class="text-gray-600 h-12"></p>
+
+<!-- progress bar -->
+<div class="w-full bg-gray-200 rounded-full mt-6 h-4 overflow-hidden">
+  <div id="bar" class="bg-pink-500 h-4 w-0 transition-all"></div>
+</div>
+
+<p class="text-xs text-gray-400 mt-2">Preparing your surprise...</p>
+
+</div>
+
+
+<script>
+/* ================= */
+/* ambil nama */
+/* ================= */
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name") || "My Love";
+
+document.getElementById("title").innerText = "Hein tuan ehhh, " + name + " ❤️";
+
+
+/* ================= */
+/* musik autoplay */
+/* ================= */
+window.addEventListener("click",()=>{
+ document.getElementById("bgm").play();
+},{once:true});
+
+
+/* ================= */
+/* typing effect */
+/* ================= */
+const texts = [
+"waiitt ehh domin...",
+"Packing hela beijos...",
+"Hadomi o...",
+"o  special...",
+"atu besik hotu nah❤️"
+];
+
+let textIndex = 0;
+let charIndex = 0;
+
+function type(){
+  const current = texts[textIndex];
+  document.getElementById("typing").innerText =
+    current.slice(0,charIndex++);
+
+  if(charIndex > current.length){
+    charIndex = 0;
+    textIndex = (textIndex+1) % texts.length;
+  }
+}
+
+setInterval(type,60);
+
+
+/* ================= */
+/* progress bar */
+/* ================= */
+let width = 0;
+const bar = document.getElementById("bar");
+
+const progress = setInterval(()=>{
+  width++;
+  bar.style.width = width + "%";
+
+  if(width >= 100){
+    clearInterval(progress);
+    window.location.href = "love.html?name=" + name;
+  }
+},40); // 4 detik
+
+
+/* ================= */
+/* hujan hati */
+/* ================= */
+function createHeart(){
+  const heart=document.createElement("div");
+  heart.innerHTML="💗";
+  heart.className="heart";
+
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=(Math.random()*3+2)+"s";
+
+  document.body.appendChild(heart);
+
+  setTimeout(()=>heart.remove(),5000);
+}
+
+setInterval(createHeart,300);
+</script>
+
+</body>
+</html>

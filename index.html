@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>A Little Surprise 💝</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- ===== CREDIT FOOTER ===== -->
+<footer class="fixed bottom-0 w-full text-center py-3 text-sm text-pink-600 bg-white/40 backdrop-blur-md">
+  <p>
+    Made with ❤️  <span class="font-semibold"></span><br>
+    <span class="text-xs opacity-80">From Ramsey to everyone</span>
+  </p>
+
+  <!-- Music -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="./music/love.mp3" type="audio/mpeg">
+  </audio>
+</footer>
+
+<style>
+    footer {
+  animation: fadeUp 1.5s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+body{
+  overflow:hidden;
+}
+
+/* hati naik */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:18px;
+  animation:floatUp linear forwards;
+}
+
+@keyframes floatUp{
+  to{
+    transform:translateY(-110vh);
+    opacity:0;
+  }
+}
+
+/* gift goyang */
+.gift{
+  animation:wiggle 2s infinite;
+  cursor:pointer;
+}
+
+@keyframes wiggle{
+  0%,100%{transform:rotate(0)}
+  25%{transform:rotate(-6deg)}
+  75%{transform:rotate(6deg)}
+}
+
+/* glow input */
+input:focus{
+  box-shadow:0 0 15px pink;
+}
+</style>
+</head>
+
+<body class="h-screen flex items-center justify-center bg-gradient-to-b from-pink-200 via-pink-100 to-white">
+
+<!-- musik -->
+<audio id="bgm" loop>
+  <source src="music.mp3">
+</audio>
+
+<div class="bg-white/90 backdrop-blur-lg p-10 rounded-3xl shadow-2xl text-center w-[340px]">
+
+<!-- GIF lucu -->
+<img src="image2.gif" class="w-40 mx-auto mb-5 rounded-xl">
+
+<h1 id="typingTitle" class="text-2xl font-bold text-pink-600 mb-4 h-8"></h1>
+
+<!-- input nama -->
+<input
+id="nameInput"
+placeholder="O nia sweet name..."
+class="border rounded-xl px-4 py-3 w-full text-center mb-6 outline-none transition"
+/>
+
+<!-- gift -->
+<div onclick="goNext()" class="gift text-7xl mb-3 hover:scale-110 transition">
+🎁
+</div>
+
+<p class="text-gray-500 text-sm">Tap  gift  start 💕</p>
+
+</div>
+
+
+<script>
+/* ================= */
+/* musik autoplay */
+/* ================= */
+window.addEventListener("click",()=>{
+ document.getElementById("bgm").play();
+},{once:true});
+
+
+/* ================= */
+/* typing effect title */
+/* ================= */
+const text = "antes atu start...";
+let i = 0;
+
+function type(){
+  document.getElementById("typingTitle").innerText =
+    text.slice(0,i++);
+}
+setInterval(type,80);
+
+
+/* ================= */
+/* floating hearts */
+/* ================= */
+function createHeart(){
+  const heart=document.createElement("div");
+  heart.innerHTML="💖";
+  heart.className="heart";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=(Math.random()*3+3)+"s";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart,400);
+
+
+/* ================= */
+/* masuk game */
+/* ================= */
+function goNext(){
+  const name=document.getElementById("nameInput").value || "My Love";
+
+  window.location.href="game.html?name="+encodeURIComponent(name);
+}
+</script>
+
+</body>
+</html>

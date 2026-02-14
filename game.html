@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Love Challenge 💘</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body{overflow:hidden;}
+
+/* kotak pilihan */
+.option{
+  transition:0.25s;
+}
+.option:hover{
+  transform:scale(1.05);
+}
+
+/* efek jatuh */
+.fall{
+  position:fixed;
+  top:-20px;
+  font-weight:bold;
+  animation:fall linear forwards;
+}
+
+@keyframes fall{
+  to{transform:translateY(110vh);opacity:0;}
+}
+
+/* getar kalau salah */
+.shake{
+  animation:shake 0.3s;
+}
+@keyframes shake{
+  25%{transform:translateX(-5px)}
+  50%{transform:translateX(5px)}
+  75%{transform:translateX(-5px)}
+}
+</style>
+</head>
+
+<body class="h-screen flex items-center justify-center bg-gradient-to-b from-pink-200 to-white">
+
+<div id="card" class="bg-white p-8 rounded-3xl shadow-xl w-[360px] text-center">
+
+<h1 id="title" class="text-xl font-bold text-pink-600 mb-4"></h1>
+
+<p id="question" class="mb-6 font-semibold"></p>
+
+<div id="options" class="grid grid-cols-2 gap-3"></div>
+
+<p id="info" class="mt-5 text-sm text-gray-500"></p>
+
+</div>
+
+<script>
+/* ================= */
+/* ambil nama */
+/* ================= */
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name") || "My Love";
+
+document.getElementById("title").innerText =
+"Love Challenge for " + name + " ❤️";
+
+
+/* ================= */
+/* EDIT JAWABAN DI SINI */
+/* ================= */
+const quiz = [
+{
+  q:"Hau nx kor favorito?",
+  options:["Pink","Metan","Biru","Mean"],
+  answer:"Metan"
+},
+{
+  q:"Hau nia hahan favorito?",
+  options:["Shushi","Steak","Pizza","Nasba"],
+  answer:"Steak"
+},
+{
+  q:"Hau gosta o bolu dhn s1?",
+  options:["Sayang","Cinta","Ram","Woy"],
+  answer:"Sayang"
+}
+];
+/* ================= */
+
+
+let current = 0;
+
+const questionEl = document.getElementById("question");
+const optionsEl  = document.getElementById("options");
+const infoEl     = document.getElementById("info");
+const card       = document.getElementById("card");
+
+
+/* ================= */
+/* tampil soal */
+/* ================= */
+function showQuestion(){
+
+  const item = quiz[current];
+
+  questionEl.innerText = item.q;
+  optionsEl.innerHTML = "";
+
+  infoEl.innerText =
+  "Question " + (current+1) + "/" + quiz.length;
+
+  item.options.forEach(opt=>{
+
+    const btn = document.createElement("button");
+
+    btn.innerText = opt;
+    btn.className =
+    "option bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-xl";
+
+    btn.onclick = ()=>check(opt);
+
+    optionsEl.appendChild(btn);
+  });
+  
+}
+
+showQuestion();
+
+
+/* ================= */
+/* cek jawaban */
+/* ================= */
+function check(choice){
+
+  const correct = quiz[current].answer;
+
+  if(choice === correct){
+
+    rain("💖", true);
+
+    current++;
+
+    if(current >= quiz.length){
+      infoEl.innerText = "You know me perfectly ❤️";
+      setTimeout(()=>{
+        window.location.href="thinking.html?name="+name;
+      },1500);
+      return;
+    }
+
+    showQuestion();
+
+  }else{
+
+    /* SALAH → ulang dari awal */
+    rain("atu matena hau mane 😝", false);
+
+    card.classList.add("shake");
+    setTimeout(()=>card.classList.remove("shake"),300);
+
+    current = 0;
+
+    setTimeout(()=>{
+      showQuestion();
+    },600);
+  }
+}
+
+
+/* ================= */
+/* efek hujan */
+/* ================= */
+function rain(text, good){
+
+  for(let i=0;i<25;i++){
+
+    const el=document.createElement("div");
+
+    el.innerHTML=text;
+    el.className="fall";
+
+    el.style.left=Math.random()*100+"vw";
+    el.style.fontSize=(Math.random()*20+15)+"px";
+    el.style.animationDuration=(Math.random()*2+2)+"s";
+    el.style.color = good ? "hotpink" : "red";
+
+    document.body.appendChild(el);
+
+    setTimeout(()=>el.remove(),4000);
+  }
+}
+</script>
+
+</body>
+</html>
